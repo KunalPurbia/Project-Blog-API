@@ -1,0 +1,31 @@
+{
+  "name": "project-blog-api",
+  "version": "1.0.0",
+  "description": "This is a client server format blog api.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon ./server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KunalPurbia/Project-Blog-API.git"
+  },
+  "author": "Kunal Purbia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KunalPurbia/Project-Blog-API/issues"
+  },
+  "homepage": "https://github.com/KunalPurbia/Project-Blog-API#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.0"
+  }
+}
