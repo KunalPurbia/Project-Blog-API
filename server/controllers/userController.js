@@ -1,6 +1,7 @@
-const userModel = require('../services/userModel')
+const userServices = require('../services/userService');
 
 module.exports.registerUser = (req, res) => {
-    userModel.registerUser(req.body)
+    console.log(userServices);
+    userServices.registerUser(req.body)
     res.json(req.body);
 }
