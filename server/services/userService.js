@@ -14,4 +14,16 @@ module.exports.registerUser = (data) => {
             throw err
         }
     })
+};
+
+module.exports.checkDuplicateEmail = (email) => {
+    return new Promise((resolve, reject) => {
+        User.find({email: email}, (err, result)=>{
+            if(err){
+                reject(err);
+            } else{
+                resolve(result);
+            }
+        })
+    })
 }
