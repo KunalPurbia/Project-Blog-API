@@ -1,12 +1,16 @@
 const express = require('express');
 const app = express();
-const config = require('./config/config')
+const config = require('./config/config');
+const mongooseLoader = require('./loaders/mongoose')
 
 //////////////////////////////////////////////////////////SETTING MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({
     extended: false
 }));
+
+//////////////////////////////////////////////////////////CONNECTING TO DATABASE
+mongooseLoader.connect();
 
 //////////////////////////////////////////////////////////REQUIRING ROUTES
 const indexRouter = require('./routes/indexRoutes.js');

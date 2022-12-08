@@ -6,10 +6,10 @@ module.exports.connect = () => {
     let db = mongoose.connection;
 
     db.on('open', (stream) => {
-        console.log(' MongoDb connected.');
+        console.log('DATABASE CONNECTION ESTABLISHED.');
     })
     if (!db.error) {
-        logger.error(' MongoDb could not connect.')
+        console.log('DATABASE CONNECTION REJECTED.')
     }
 
     return connection;
