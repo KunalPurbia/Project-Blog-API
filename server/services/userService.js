@@ -1,8 +1,15 @@
 const { User } = require('../models/userSchema');
+const bcrypt = require('bcryptjs')
+// const bcrypt = require('../helpers/bcrypt')
 
-module.exports.registerUser = (data) => {
+module.exports.registerUser = async (data, password) => {
     return new Promise((resolve, reject) => {
-        const newUser = new User(data);
+        const newUser = new User({
+            username: data.username,
+            email: data.email,
+            password: password,
+            author: data.author
+        });
         try {
             newUser.save((err, result) => {
                 if (err) {
@@ -18,12 +25,16 @@ module.exports.registerUser = (data) => {
 
 module.exports.checkDuplicateEmail = (email) => {
     return new Promise((resolve, reject) => {
-        User.find({email: email}, (err, result)=>{
-            if(err){
+        User.find({ email: email }, (err, foundUser) => {
+            if (err) {
                 reject(err);
-            } else{
-                resolve(result);
+            } else {
+                if(foundUser.length == 0){
+                    resolve(null);
+                } else{
+                    resolve(foundUser);
+                }
             }
-        })
-    })
+        });
+    });
 }
