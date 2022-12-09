@@ -37,4 +37,16 @@ module.exports.checkDuplicateEmail = (email) => {
             }
         });
     });
+};
+
+module.exports.findEmail = (email) =>{
+    return new Promise((resolve, reject) => {
+        User.find({email: email}, (err, foundUser)=>{
+            if(err){
+                reject(err);
+            } else{
+                resolve(foundUser)
+            }
+        });
+    })
 }

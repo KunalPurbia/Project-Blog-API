@@ -14,11 +14,13 @@ mongooseLoader.connect();
 
 //////////////////////////////////////////////////////////REQUIRING ROUTES
 const indexRouter = require('./routes/indexRoutes.js');
-const userRouter = require('./routes/userRouter')
+const signinRouter = require('./routes/signinRouter');
+const loginRouter = require('./routes/loginRouter')
 
 //////////////////////////////////////////////////////////SETTING ALL ROUTES
 app.use("/", indexRouter);
-app.use("/sign-in", userRouter);
+app.use("/sign-in", signinRouter);
+app.use("/log-in", loginRouter);
 
 //////////////////////////////////////////////////////////LISTENING TO PORT
 app.listen(process.env.SERVER, ()=>{
