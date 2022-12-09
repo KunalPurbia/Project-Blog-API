@@ -1,26 +1,30 @@
 const express = require('express');
 const app = express();
+const passport = require('passport')
 const config = require('./config/config');
-const mongooseLoader = require('./loaders/mongoose')
+const mongooseLoader = require('./loaders/mongoose');
 
 //////////////////////////////////////////////////////////SETTING MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({
     extended: false
 }));
+app.use(passport.initialize());
 
 //////////////////////////////////////////////////////////CONNECTING TO DATABASE
 mongooseLoader.connect();
 
+require('./middlewares/jwtAuth');
+
 //////////////////////////////////////////////////////////REQUIRING ROUTES
-const indexRouter = require('./routes/indexRoutes.js');
 const signinRouter = require('./routes/signinRouter');
-const loginRouter = require('./routes/loginRouter')
+const loginRouter = require('./routes/loginRouter');
+const authorRouter = require('./routes/authorRouter')
 
 //////////////////////////////////////////////////////////SETTING ALL ROUTES
-app.use("/", indexRouter);
 app.use("/sign-in", signinRouter);
 app.use("/log-in", loginRouter);
+app.use("/author", authorRouter);
 
 //////////////////////////////////////////////////////////LISTENING TO PORT
 app.listen(process.env.SERVER, ()=>{
