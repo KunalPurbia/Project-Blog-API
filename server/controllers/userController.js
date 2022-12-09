@@ -1,6 +1,7 @@
 const userServices = require('../services/userService');
 const bcrypt = require('../helpers/bcrypt');
-const e = require('express');
+const jwt = require('jsonwebtoken');
+const config = require('../config/config')
 
 module.exports.registerUser = async (req, res) => {
     const checkUser = await userServices.checkDuplicateEmail(req.body.email);
@@ -11,21 +12,26 @@ module.exports.registerUser = async (req, res) => {
         }).catch((err) => {
             res.send(err);
         });
-    } else{
+    } else {
         res.send("User email is already registered")
     }
 };
 
 module.exports.loginUser = async (req, res) => {
     const checkUser = await userServices.findEmail(req.body.email);
-    if(checkUser.length === 0){
+    if (checkUser.length === 0) {
         res.send("User does not exist")
-    } else{
+    } else {
         const userData = checkUser[0];
         const finalUser = await bcrypt.compare(req.body.password, userData.password);
-        if(finalUser === true){
-            res.send("User found");
-        } else{
+        if (finalUser === true) {
+            const tokenDetail = {};
+            tokenDetail.email = userData.email;
+            tokenDetail.password = userData.password;
+            tokenDetail.author = userData.author;
+            const token = jwt.sign(tokenDetail, config.jwtKey);
+            res.send(token);
+        } else {
             res.send("User does not exist")
         }
     }
