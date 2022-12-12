@@ -24,4 +24,18 @@ module.exports.deleteBlog = async (req, res) => {
     } else{
         res.sendStatus(401);
     }
+};
+
+module.exports.publishBlog = async (req, res) =>{
+    if(req.user.author === true){
+        await blogService.publishBlog(req.params.id).then(()=>res.sendStatus(200)).catch((err) => res.send(err));
+    } else{
+        res.sendStatus(401);
+    }
+};
+
+module.exports.unpublishBlog = async (req, res) =>{
+    if(req.user.author === true) {
+        await blogService.unpublishBlog(req.params.id).then(()=>res.sendStatus(200)).catch((err)=>res.send(err));
+    }
 }

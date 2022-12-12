@@ -17,6 +17,22 @@ module.exports.getAllBlogs = () => {
     })
 };
 
+module.exports.getViewBlogs = () =>{
+    return new Promise((resolve, reject) => {
+        try {
+            Blog.find({publish: true}, (err, result)=>{
+                if(err){
+                    reject(err);
+                } else{
+                    resolve(result);
+                }
+            });
+        } catch (error) {
+            throw error
+        }
+    })
+}
+
 module.exports.getFullBlog = (id) =>{
     return new Promise((resolve, reject) => {
         console.log("Hello");
@@ -83,6 +99,38 @@ module.exports.deleteBlog = (id) =>{
             })
         } catch (error) {
             throw error;
+        }
+    })
+};
+
+module.exports.publishBlog = (id) =>{
+    return new Promise((resolve, reject) => {
+        try {
+            Blog.findByIdAndUpdate({_id: id}, {publish: true}, (err, result)=>{
+                if(err){
+                    reject(err);
+                } else{
+                    resolve(result);
+                }
+            })
+        } catch (error) {
+            throw error
+        }
+    })
+};
+
+module.exports.unpublishBlog = (id) =>{
+    return new Promise((resolve, reject) => {
+        try {
+            Blog.findByIdAndUpdate({_id: id}, {publish: false}, (err, result)=>{
+                if(err){
+                    reject(err);
+                } else{
+                    resolve(result);
+                }
+            })
+        } catch (error) {
+            throw error
         }
     })
 }

@@ -15,4 +15,8 @@ router.put("/blog/:id", passport.authenticate('jwt', { session: false }), author
 
 router.delete("/blog/:id", passport.authenticate('jwt', { session: false}), authorController.deleteBlog);
 
+router.put("/blog/:id/publish", passport.authenticate('jwt', {session: false}), authorController.publishBlog);
+
+router.put("/blog/:id/unpublish", passport.authenticate('jwt', {session: false}), authorController.unpublishBlog); 
+
 module.exports = router;

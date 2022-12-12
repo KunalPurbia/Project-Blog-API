@@ -4,7 +4,7 @@ module.exports.allBlogs = async  (req, res) =>{
     if (req.user.author === true) {
         await blogService.getAllBlogs().then((result)=>res.send(result)).catch((err)=>res.send(err));
     } else if(req.user.author === false){
-        await blogService.getAllBlogs().then((result)=>res.send(result)).catch((err)=>res.send(err));
+        await blogService.getViewBlogs().then((result)=>res.send(result)).catch((err)=>res.send(err));
     }else {
         res.sendStatus(401);
     }
@@ -15,6 +15,14 @@ module.exports.getFullBlog = async (req, res) =>{
         await blogService.getFullBlog(req.params.id).then((result)=>res.send(result)).catch((err)=>res.send(err));
     } else if(req.user.author === false) {
         await blogService.getFullBlog(req.params.id).then((result)=>res.send(result)).catch((err)=>res.send(err));
+    } else{
+        res.sendStatus(401);
+    }
+}
+
+module.exports.addComment = async (req, res) =>{
+    if(req.user.author === false) {
+        await blogService.addComment(req.params.id).then(()=>res.sendStatus(201)).catch((err)=>res.send(err));
     } else{
         res.sendStatus(401);
     }

@@ -7,8 +7,10 @@ require('../middlewares/jwtAuth')(passport);
 
 router.get("/", passport.authenticate('jwt', { session: false }), homeController.allBlogs);
 
+router.put("/becomeAuthor", passport.authenticate('jwt', {session: false}), userController.updateToAuthor);
+
 router.get("/blog/:id", passport.authenticate('jwt', {session: false}), homeController.getFullBlog);
 
-router.put("/becomeAuthor", passport.authenticate('jwt', {session: false}), userController.updateToAuthor);
+router.post("/blog/:id/comment", passport.authenticate('jwt', {session: false}), homeController.addComment);
 
 module.exports = router;
