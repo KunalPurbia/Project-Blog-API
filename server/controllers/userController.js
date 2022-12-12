@@ -30,7 +30,8 @@ module.exports.loginUser = async (req, res) => {
             tokenDetail.password = userData.password;
             tokenDetail.author = userData.author;
             const token = jwt.sign(tokenDetail, config.jwtKey);
-            res.send(token);
+            const details = [userData.author, token]
+            res.send(details);
         } else {
             res.send("User does not exist")
         }
