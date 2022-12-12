@@ -46,5 +46,6 @@ module.exports.updateToAuthor = async (req, res) =>{
         }
     } else {
         res.sendStatus(401);
+    
     }
 }
