@@ -35,4 +35,20 @@ module.exports.deleteComment = (userId, blogId) => {
             throw error
         }
     })
-}
+};
+
+module.exports.deleteCommentById = (id) => {
+    return new Promise((resolve, reject) => {
+        try {
+            Comment.findByIdAndDelete({_id: id}, (err, result) => {
+                if(err){
+                    reject(err);
+                } else{
+                    resolve(result)
+                }
+            })
+        } catch (error) {
+            throw error;
+        }
+    })
+};
