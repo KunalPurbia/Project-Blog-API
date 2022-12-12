@@ -1,5 +1,5 @@
-const e = require('express');
 const { Blog } = require('../models/blogSchema');
+const {Comment} = require('../models/commentSchema');
 
 module.exports.getAllBlogs = () => {
     return new Promise((resolve, reject) => {
@@ -35,14 +35,22 @@ module.exports.getViewBlogs = () =>{
 
 module.exports.getFullBlog = (id) =>{
     return new Promise((resolve, reject) => {
-        console.log("Hello");
         try {
+            let blogData = []
             Blog.findById({_id: id}, (err, result)=>{
                 if(err){
                     reject(err);
                 } else{
-                    console.log(result);
-                    resolve(result);
+                    blogData.push(result);
+                    Comment.find({blogId: id}, (err, result) =>{
+                        if(err){
+                            reject(err);
+                        } else{
+                            blogData.push(result);
+                            console.log(blogData);
+                            resolve(blogData);
+                        }
+                    })
                 }
             })
         } catch (error) {

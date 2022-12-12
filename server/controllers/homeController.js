@@ -19,11 +19,3 @@ module.exports.getFullBlog = async (req, res) =>{
         res.sendStatus(401);
     }
 }
-
-module.exports.addComment = async (req, res) =>{
-    if(req.user.author === false) {
-        await blogService.addComment(req.params.id).then(()=>res.sendStatus(201)).catch((err)=>res.send(err));
-    } else{
-        res.sendStatus(401);
-    }
-}
