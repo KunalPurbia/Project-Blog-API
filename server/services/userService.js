@@ -1,6 +1,4 @@
 const { User } = require('../models/userSchema');
-const bcrypt = require('bcryptjs')
-// const bcrypt = require('../helpers/bcrypt')
 
 module.exports.registerUser = async (data, password) => {
     return new Promise((resolve, reject) => {

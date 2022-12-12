@@ -11,7 +11,7 @@ module.exports = (passport) => {
     passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
         const userFound = await userService.findEmail(jwt_payload.email);
         if(userFound.length == 1){
-            return done(null, userFound);
+            return done(null, userFound[0]);
         }
     }));
 }

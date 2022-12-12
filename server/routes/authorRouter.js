@@ -4,6 +4,6 @@ const authorController = require('../controllers/authorController');
 const passport = require('passport');
 require('../middlewares/jwtAuth')(passport)
 
-router.post("/", passport.authenticate('jwt', { session: false }), authorController.createPost);
+router.post("/create", passport.authenticate('jwt', { session: false }), authorController.createBlog);
 
 module.exports = router;
