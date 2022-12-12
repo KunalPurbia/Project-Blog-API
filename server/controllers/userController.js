@@ -1,7 +1,8 @@
 const userServices = require('../services/userService');
 const bcrypt = require('../helpers/bcrypt');
 const jwt = require('jsonwebtoken');
-const config = require('../config/config')
+const config = require('../config/config');
+const { User } = require('../models/userSchema');
 
 module.exports.registerUser = async (req, res) => {
     const checkUser = await userServices.checkDuplicateEmail(req.body.email);
@@ -35,5 +36,15 @@ module.exports.loginUser = async (req, res) => {
         } else {
             res.send("User does not exist")
         }
+    }
+};
+
+module.exports.updateToAuthor = async (req, res) =>{
+    if(req.user.author === false){
+        if(req.body.code == config.authorCode){
+            await userServices.updateUser(req.user.id).then(()=>res.sendStatus(201)).catch((err)=>res.send(err));
+        }
+    } else {
+        res.sendStatus(401);
     }
 }

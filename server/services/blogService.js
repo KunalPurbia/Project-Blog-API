@@ -15,6 +15,24 @@ module.exports.getAllBlogs = () => {
             throw error
         }
     })
+};
+
+module.exports.getFullBlog = (id) =>{
+    return new Promise((resolve, reject) => {
+        console.log("Hello");
+        try {
+            Blog.findById({_id: id}, (err, result)=>{
+                if(err){
+                    reject(err);
+                } else{
+                    console.log(result);
+                    resolve(result);
+                }
+            })
+        } catch (error) {
+            throw error
+        }
+    })
 }
 
 module.exports.addBlog = (data) =>{

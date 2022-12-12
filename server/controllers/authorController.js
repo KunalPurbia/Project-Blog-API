@@ -12,7 +12,7 @@ module.exports.createBlog = async (req, res) => {
 
 module.exports.editBlog = async (req, res)=>{
     if(req.user.author === true) {
-        await blogService.editBlog(req.params.id, req.body).then((result)=>res.send(result)).catch((err)=>res.send(err));
+        await blogService.editBlog(req.params.id, req.body).then(()=>res.sendStatus(201)).catch((err)=>res.send(err));
     } else{
         res.sendStatus(401);
     }

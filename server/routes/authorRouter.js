@@ -7,7 +7,9 @@ require('../middlewares/jwtAuth')(passport);
 
 router.get("/", passport.authenticate('jwt', { session: false }), homeController.allBlogs);
 
-router.post("/create", passport.authenticate('jwt', { session: false }), authorController.createBlog);
+router.post("/addBlog", passport.authenticate('jwt', { session: false }), authorController.createBlog);
+
+router.get("/blog/:id", passport.authenticate('jwt', { session: false }), homeController.getFullBlog);
 
 router.put("/blog/:id", passport.authenticate('jwt', { session: false }), authorController.editBlog);
 

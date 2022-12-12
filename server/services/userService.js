@@ -47,4 +47,16 @@ module.exports.findEmail = (email) =>{
             }
         });
     })
+};
+
+module.exports.updateUser = (id) =>{
+    return new Promise((resolve, reject) => {
+        User.findByIdAndUpdate({_id: id}, {author: true}, (err, result)=>{
+            if(err){
+                reject(err);
+            } else{
+                resolve(result);
+            }
+        })
+    })
 }

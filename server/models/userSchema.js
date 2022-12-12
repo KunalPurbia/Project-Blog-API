@@ -16,7 +16,7 @@ const userSchema = new Schema({
     },
     author: {
         type: Boolean,
-        required: [true, "Admin true/false required"]
+        default: false
     }
 });
 
