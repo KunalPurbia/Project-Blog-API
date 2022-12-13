@@ -42,7 +42,7 @@ module.exports.loginUser = async (req, res) => {
 module.exports.updateToAuthor = async (req, res) =>{
     if(req.user.author === false){
         if(req.body.code == config.authorCode){
-            await userServices.updateUser(req.user.id).then(()=>res.sendStatus(201)).catch((err)=>res.send(err));
+            await userServices.updateUser(req.user.id).then(()=>res.sendStatus(200)).catch((err)=>res.send(err));
         }
     } else {
         res.sendStatus(401);

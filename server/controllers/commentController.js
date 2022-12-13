@@ -2,7 +2,7 @@ const commentService = require('../services/commentService');
 
 module.exports.addComment = async (req, res) =>{
     if(req.user.author === false) {
-        await commentService.addComment(req.user._id, req.params.id, req.body.comment).then(()=>res.sendStatus(201)).catch((err)=>res.send(err));
+        await commentService.addComment(req.user._id, req.params.id, req.body.comment).then(()=>res.sendStatus(200)).catch((err)=>res.send(err));
     } else{
         res.sendStatus(401);
     }
@@ -10,7 +10,7 @@ module.exports.addComment = async (req, res) =>{
 
 module.exports.deleteComment = (req, res) => {
     if(req.user.author === false){
-        commentService.deleteComment(req.user._id, req.params.id).then(()=>res.send(201)).catch((err)=>res.send(err));
+        commentService.deleteComment(req.user._id, req.params.id).then(()=>res.send(200)).catch((err)=>res.send(err));
     } else{
         res.sendStatus(401);
     }

@@ -13,7 +13,7 @@ module.exports.createBlog = async (req, res) => {
 
 module.exports.editBlog = async (req, res)=>{
     if(req.user.author === true) {
-        await blogService.editBlog(req.params.id, req.body).then(()=>res.sendStatus(201)).catch((err)=>res.send(err));
+        await blogService.editBlog(req.params.id, req.body).then(()=>res.sendStatus(200)).catch((err)=>res.send(err));
     } else{
         res.sendStatus(401);
     }
@@ -21,7 +21,7 @@ module.exports.editBlog = async (req, res)=>{
 
 module.exports.deleteBlog = async (req, res) => {
     if(req.user.author === true) {
-        await blogService.deleteBlog(req.params.id).then(()=>res.send("deleted")).catch((err)=> res.send(err));
+        await blogService.deleteBlog(req.params.id).then(()=>res.sendStatus(200)).catch((err)=> res.send(err));
     } else{
         res.sendStatus(401);
     }
