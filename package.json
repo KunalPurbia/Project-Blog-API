@@ -4,7 +4,7 @@
   "description": "This is a client server format blog api.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watchAll",
     "server": "nodemon ./server/server.js",
     "client": "nodemon ./client/client.js"
   },
