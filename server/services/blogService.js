@@ -47,7 +47,6 @@ module.exports.getFullBlog = (id) =>{
                             reject(err);
                         } else{
                             blogData.push(result);
-                            console.log(blogData);
                             resolve(blogData);
                         }
                     })

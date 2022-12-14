@@ -8,6 +8,9 @@ const request = require('supertest')
 //////////////////////////////////////////////////////////VARIABLES TO STORE TOKEN FOR AUTHENTICATION
 var viewerToken = "";
 var authorToken = "";
+var blogOneID = "";
+var blogTwoID = "";
+var blogThreeID = "";
 
 //////////////////////////////////////////////////////////SETTING MIDDLEWARES
 app.use(express.json());
@@ -29,13 +32,13 @@ require('../middlewares/jwtAuth');
 const signinRouter = require('../routes/signinRouter');
 const loginRouter = require('../routes/loginRouter');
 const viewerRouter = require('../routes/viewerRouter');
-// const authorRouter = require('../routes/authorRouter');
+const authorRouter = require('../routes/authorRouter');
 
 //////////////////////////////////////////////////////////SETTING ALL ROUTES
 app.use("/sign-in", signinRouter);
 app.use("/log-in", loginRouter);
 app.use("/viewer", viewerRouter);
-// app.use("/author", authorRouter);
+app.use("/author", authorRouter);
 
 //////////////////////////////////////////////////////////SIGN IN ROUTE TESTING
 describe("Sign In route test", () => {
@@ -127,6 +130,85 @@ describe("Viewer route test for update to Author", () => {
 });
 
 //////////////////////////////////////////////////////////AUTHOR ROUTE TESTING FOR CRUD BLOG
+describe("Author all routes test", () => {
+
+    it('POST /log-in on successfull log in', async () => {
+        const { body, statusCode } = await request(app).post("/log-in").send({
+            email: "author@test.com",
+            password: "123"
+        });
+        authorToken = "Bearer " + body[1];
+        expect(statusCode).toBe(200);
+    });
+
+    it("POST /author/addBlog - To add blog into DB", async () => {
+        const { body, statusCode } = await request(app)
+            .post("/author/addBlog")
+            .set("Authorization", authorToken)
+            .send({
+                title: "Test Blog 1",
+                content: "This is test blog ONE"
+            });
+        expect(statusCode).toBe(200);
+    });
+
+    it("POST /author/addBlog - To add blog into DB", async () => {
+        const { body, statusCode } = await request(app)
+            .post("/author/addBlog")
+            .set("Authorization", authorToken)
+            .send({
+                title: "Test Blog 2",
+                content: "This is test blog Second"
+            });
+        expect(statusCode).toBe(200);
+    });
+
+    it("POST /author/addBlog - To add blog into DB", async () => {
+        const { body, statusCode } = await request(app)
+            .post("/author/addBlog")
+            .set("Authorization", authorToken)
+            .send({
+                title: "Test Blog 3",
+                content: "This is test blog third"
+            });
+        expect(statusCode).toBe(200);
+    });
+
+    it("GET /author to get all blogs written", async () => {
+        const { body, statusCode } = await request(app)
+            .get("/author")
+            .set("Authorization", authorToken);
+        blogOneID = body[0]._id;
+        blogTwoID = body[1]._id;
+        blogThreeID = body[2]._id;
+        expect(statusCode).toBe(200);
+    });
+
+    it("GET /author/blog/:id to get all blogs written", async () => {
+        const { body, statusCode } = await request(app)
+            .get(`/author/blog/${blogOneID}`)
+            .set("Authorization", authorToken);
+        expect(statusCode).toBe(200);
+    });
+
+    it("PUT /author/blog/:id to get all blogs written", async () => {
+        const { body, statusCode } = await request(app)
+            .put(`/author/blog/${blogOneID}`)
+            .set("Authorization", authorToken)
+            .send({
+                title: "Updated Blog",
+                content: "Check this one is updated"
+            });
+        expect(statusCode).toBe(200);
+    });
+
+    it("DELETE /author/blog/:id - To delete selected blog", async () => {
+       const { body, statusCode } =  await request(app)
+            .delete(`/author/blog/${blogThreeID}`)
+            .set("Authorization", authorToken);
+        expect(statusCode).toBe(200);
+    });
+});
 
 // //////////////////////////////////////////////////////////DESTROYING DATABASE AFTER COMPLETE TEST
 // afterAll((done) => {
