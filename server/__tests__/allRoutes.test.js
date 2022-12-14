@@ -203,8 +203,29 @@ describe("Author all routes test", () => {
     });
 
     it("DELETE /author/blog/:id - To delete selected blog", async () => {
-       const { body, statusCode } =  await request(app)
+        const { body, statusCode } = await request(app)
             .delete(`/author/blog/${blogThreeID}`)
+            .set("Authorization", authorToken);
+        expect(statusCode).toBe(200);
+    });
+
+    it("PUT /author/blog/:id/publish - To publish blog ONE", async () => {
+        const { body, statusCode } = await request(app)
+            .put(`/author/blog/${blogOneID}/publish`)
+            .set("Authorization", authorToken);
+        expect(statusCode).toBe(200);
+    });
+
+    it("PUT /author/blog/:id/publish - To publish blog TWO", async () => {
+        const { body, statusCode } = await request(app)
+            .put(`/author/blog/${blogTwoID}/publish`)
+            .set("Authorization", authorToken);
+        expect(statusCode).toBe(200);
+    });
+
+    it("PUT /author/blog/:id/publish - To UN-publish blog TWO", async () => {
+        const { body, statusCode } = await request(app)
+            .put(`/author/blog/${blogTwoID}/unpublish`)
             .set("Authorization", authorToken);
         expect(statusCode).toBe(200);
     });
