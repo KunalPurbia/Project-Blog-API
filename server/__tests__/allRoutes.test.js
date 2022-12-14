@@ -231,7 +231,7 @@ describe("Author all routes test", () => {
     });
 });
 
-// //////////////////////////////////////////////////////////DESTROYING DATABASE AFTER COMPLETE TEST
+/// //////////////////////////////////////////////////////////DESTROYING DATABASE AFTER COMPLETE TEST
 // afterAll((done) => {
 //     mongoose.connection.db.dropDatabase(() => {
 //         mongoose.connection.close(() => done())
