@@ -17,28 +17,26 @@ mongooseLoader.connect();
 require('../middlewares/jwtAuth');
 
 //////////////////////////////////////////////////////////REQUIRING ROUTES
-const signinRouter = require('../routes/signinRouter');
+const loginRouter = require('../routes/loginRouter');
 
 //////////////////////////////////////////////////////////SETTING ALL ROUTES
-app.use("/sign-in", signinRouter);
+app.use("/log-in", loginRouter);
 
 //////////////////////////////////////////////////////////Sign In route testing
-describe("Sign In route test", ()=>{
-    it('POST /sign-in on successfull sign in', async () =>{
-        const {body, statusCode} = await request(app).post("/sign-in").send({
-            username: "TEST1234",
+describe("Log in route test", ()=>{
+    it('POST /log-in on successfull log in', async () =>{
+        const {body, statusCode} = await request(app).post("/log-in").send({
             email:"test1234@test.com",
             password:"test123"
         });
-        expect(statusCode).toBe(201);
+        expect(statusCode).toBe(200);
     });
 
-    it('POST /sign-in on sign in with repeated email', async () =>{
-        const {body, statusCode} = await request(app).post("/sign-in").send({
-            username: "TEST1234",
+    it('POST /log-in on successfull log in', async () =>{
+        const {body, statusCode} = await request(app).post("/log-in").send({
             email:"test1234@test.com",
-            password:"test123"
+            password:"test123456789"
         });
-        expect(statusCode).toBe(400);
+        expect(statusCode).toBe(401);
     });
-})
+});

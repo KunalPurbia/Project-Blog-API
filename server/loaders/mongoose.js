@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('../config/config')
 
+mongoose.set("strictQuery", false);
+
 module.exports.connect = () => {
     const connection = mongoose.connect(config.mongoUri);
     let db = mongoose.connection;

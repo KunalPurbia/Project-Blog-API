@@ -8,13 +8,13 @@ module.exports.registerUser = async (req, res) => {
     const checkUser = await userServices.checkDuplicateEmail(req.body.email);
     if (checkUser === null) {
         const password = await bcrypt.hash(req.body.password);
-        await userServices.registerUser(req.body, password).then(() => {
-            res.send("User registered successfully")
+        await userServices.registerUser(req.body, password).then((result) => {
+            res.status(201).send("User registered successfully")
         }).catch((err) => {
-            res.send(err);
+            res.status(400).send(err);
         });
     } else {
-        res.send("User email is already registered")
+        res.status(400).send("User email is already registered")
     }
 };
 
@@ -32,9 +32,9 @@ module.exports.loginUser = async (req, res) => {
             tokenDetail.author = userData.author;
             const token = jwt.sign(tokenDetail, config.jwtKey);
             const details = [userData.author, token]
-            res.send(details);
+            res.status(200).send(details);
         } else {
-            res.send("User does not exist")
+            res.status(401).send("User does not exist")
         }
     }
 };
