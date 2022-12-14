@@ -15,10 +15,10 @@ app.use(passport.initialize());
 //////////////////////////////////////////////////////////CONNECTING TO DATABASE
 beforeAll(() => {
     mongoose.set("strictQuery", false);
-
     mongoose.connect(config.mongoTestUri);
 });
 
+//////////////////////////////////////////////////////////INITIALIZING MIDDLEWARE FOR JWT AUTHENTICATION
 require('../middlewares/jwtAuth');
 
 //////////////////////////////////////////////////////////REQUIRING ROUTES
@@ -99,7 +99,7 @@ describe("Log in route test", () => {
     });
 });
 
-
+//////////////////////////////////////////////////////////DESTROYING DATABASE AFTER COMPLETE TEST
 afterAll((done) => {
     mongoose.connection.db.dropDatabase(() => {
         mongoose.connection.close(() => done())
