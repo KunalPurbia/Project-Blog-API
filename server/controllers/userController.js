@@ -21,7 +21,7 @@ module.exports.registerUser = async (req, res) => {
 module.exports.loginUser = async (req, res) => {
     const checkUser = await userServices.findEmail(req.body.email);
     if (checkUser.length === 0) {
-        res.send("User does not exist")
+        res.sendStatus(401);
     } else {
         const userData = checkUser[0];
         const finalUser = await bcrypt.compare(req.body.password, userData.password);
@@ -34,7 +34,7 @@ module.exports.loginUser = async (req, res) => {
             const details = [userData.author, token]
             res.status(200).send(details);
         } else {
-            res.status(401).send("User does not exist")
+            res.sendStatus(401);
         }
     }
 };
