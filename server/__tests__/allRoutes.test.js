@@ -11,6 +11,7 @@ var authorToken = "";
 var blogOneID = "";
 var blogTwoID = "";
 var blogThreeID = "";
+var commentId = "";
 
 //////////////////////////////////////////////////////////SETTING MIDDLEWARES
 app.use(express.json());
@@ -223,7 +224,7 @@ describe("Author all routes test", () => {
         expect(statusCode).toBe(200);
     });
 
-    it("PUT /author/blog/:id/publish - To UN-publish blog TWO", async () => {
+    it("PUT /author/blog/:id/unpublish - To UN-publish blog TWO", async () => {
         const { body, statusCode } = await request(app)
             .put(`/author/blog/${blogTwoID}/unpublish`)
             .set("Authorization", authorToken);
@@ -231,9 +232,87 @@ describe("Author all routes test", () => {
     });
 });
 
-/// //////////////////////////////////////////////////////////DESTROYING DATABASE AFTER COMPLETE TEST
-// afterAll((done) => {
-//     mongoose.connection.db.dropDatabase(() => {
-//         mongoose.connection.close(() => done())
-//     });
-// });
+//////////////////////////////////////////////////////////VIEWER ROUTE TESTING ALL ROUTES
+describe("Viewer route test for all api", () => {
+
+    it('POST /log-in on successfull log in', async () => {
+        const { body, statusCode } = await request(app).post("/log-in").send({
+            email: "viewer@test.com",
+            password: "123"
+        });
+        viewerToken = "Bearer " + body[1];
+        expect(statusCode).toBe(200);
+    });
+
+    it('GET /viewer - to get all published blog only', async () => {
+        const { body, statusCode } = await request(app)
+            .get("/viewer")
+            .set("Authorization", viewerToken);
+        expect(statusCode).toBe(200)
+    });
+
+    it('GET /viewer/blog/:id - to get one full blog', async () => {
+        const { body, statusCode } = await request(app).get(`/viewer/blog/${blogOneID}`).set("Authorization", viewerToken);
+        expect(statusCode).toBe(200)
+    });
+
+    it('POST /viewer/blog/:id/comment - to post comment on selected blog', async () => {
+        const { body, statusCode } = await request(app).post(`/viewer/blog/${blogOneID}/comment`).set("Authorization", viewerToken).send({
+            comment: "This is my test comment"
+        });
+
+        expect(statusCode).toBe(200);
+    });
+
+    it('DELETE /viewer/blog/:id/comment - to post comment on selected blog', async () => {
+        const { body, statusCode } = await request(app).delete(`/viewer/blog/${blogOneID}/comment`).set("Authorization", viewerToken);
+
+        expect(statusCode).toBe(200);
+    });
+
+    it('POST /viewer/blog/:id/comment - to post comment on selected blog', async () => {
+        const { body, statusCode } = await request(app).post(`/viewer/blog/${blogOneID}/comment`).set("Authorization", viewerToken).send({
+            comment: "This is my test comment to delete from author"
+        });
+
+        expect(statusCode).toBe(200);
+    });
+});
+
+//////////////////////////////////////////////////////////AUTHOR ROUTE TEST FOR DELETING SPECIFIC COMMENT
+describe("Author route test for deleting comment", () => {
+
+    it('POST /log-in on successfull log in', async () => {
+        const { body, statusCode } = await request(app).post("/log-in").send({
+            email: "author@test.com",
+            password: "123"
+        });
+        authorToken = "Bearer " + body[1];
+        expect(statusCode).toBe(200);
+    });
+
+    it("GET /author to get all blogs written", async () => {
+        const { body, statusCode } = await request(app)
+            .get("/author")
+            .set("Authorization", authorToken);
+        expect(statusCode).toBe(200);
+    });
+
+    it('GET /author/blog/:id - to get one full blog', async () => {
+        const { body, statusCode } = await request(app).get(`/author/blog/${blogOneID}`).set("Authorization", authorToken);
+        commentId = body[1][0]._id;
+        expect(statusCode).toBe(200);
+    });
+
+    it('DELETE /author/blog/:id/comment/:commentId - to delete particular comment using ID', async () => {
+        const { body, statusCode } = await request(app).delete(`/author/blog/${blogOneID}/comment/${commentId}`).set("Authorization", authorToken);
+        expect(statusCode).toBe(200);
+    });
+});
+
+//////////////////////////////////////////////////////////DESTROYING DATABASE AFTER COMPLETE TEST
+afterAll((done) => {
+    mongoose.connection.db.dropDatabase(() => {
+        mongoose.connection.close(() => done())
+    });
+});
