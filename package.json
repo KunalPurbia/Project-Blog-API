@@ -1,12 +1,13 @@
 {
   "name": "project-blog-api",
   "version": "1.0.0",
-  "description": "This is a client server format blog api.",
-  "main": "index.js",
+  "description": "This is a client server format blog api based on MEVN Stack.",
   "scripts": {
     "test": "jest --watchAll",
     "server": "nodemon ./server/server.js",
-    "client": "nodemon ./client/client.js"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,8 @@
   },
   "homepage": "https://github.com/KunalPurbia/Project-Blog-API#readme",
   "dependencies": {
+    "core-js": "^3.8.3",
+    "vue": "^3.2.13",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -31,6 +34,33 @@
   },
   "devDependencies": {
     "jest": "^29.3.1",
-    "supertest": "^6.3.3"
-  }
+    "supertest": "^6.3.3",
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
 }
